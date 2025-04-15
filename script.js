@@ -1,4 +1,4 @@
-const images = Array.from({ length: 32 }, (_, i) => `/images/svg/image_${String(i + 1).padStart(2, "0")}.svg`);
+const images = Array.from({ length: 32 }, (_, i) => `/images/SVG/image_${String(i + 1).padStart(2, "0")}.svg`);
 
 const blurToggle = document.getElementById("blurToggle");
 const activeBlurIntervals = new Map();
