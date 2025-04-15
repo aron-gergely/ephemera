@@ -1,0 +1,269 @@
+/* Global Styles */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden; /* Disable horizontal scrolling */
+  overflow-y: auto;   /* Allow vertical scrolling */
+  background-color: white;
+}
+
+:root {
+  --color1: black;
+  --color2: white;
+  --accent: magenta;
+  --text: var(--color1);
+}
+
+/* Container for Images */
+#container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+img {
+  position: absolute;
+  will-change: transform, top;
+  transition: transform 0.1s ease-in-out;
+}
+
+/* Popup Styles */
+#popup {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  width: 120px;
+  border-radius: 15px;
+  background-color: var(--color1);
+  padding: 15px;
+  padding-top: 50px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  opacity: 1;
+  z-index: 1;
+  pointer-events: auto;
+  transform-origin: top left;
+}
+
+#popup.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Hidden Class */
+.hidden {
+  display: none;
+}
+
+/* Dark Mode */
+.dark-mode {
+  filter: invert(1);
+  background-color: white; /* Optional: You can still set a dark background */
+}
+
+#contentWrapper.dark-inverted {
+  filter: invert(1);
+}
+
+.dark-mode #menuContainer {
+  filter: none !important; /* Keep menu un-inverted */
+}
+
+body.dark-mode #popup {
+  position: fixed;
+}
+
+/* Menu Styles */
+#menuWrapper {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  pointer-events: auto;
+  z-index: 1000;
+  filter: none !important; /* Prevent invert from applying to it */
+}
+
+#menuWrapper label,
+#menuWrapper input[type="range"] {
+  font-family: sans-serif;
+  color: var(--color2);
+}
+
+#menuWrapper input[type="range"] {
+  padding: 10px 0;
+}
+
+#menuWrapper div {
+  font-family: sans-serif;
+  font-size: 10px; /* Adjust size if needed */
+}
+
+/* Menu Button Styles */
+#menuButton {
+  width: 25px;
+  height: 25px;
+  background-color: transparent;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  z-index: 1001;
+  position: relative;
+}
+
+#menuButton:hover {
+  background-color: var(--accent);
+  border: 2px solid var(--accent);
+}
+
+#menuButton.active {
+  background-color: var(--accent);
+  border: 2px solid var(--accent);
+}
+
+.dark-mode #menuButton,
+.dark-mode #menuButton:hover,
+.dark-mode #menuButton.active {
+  filter: none !important;
+}
+
+
+/* Speed Slider Styles */
+#speedSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent; /* Make base background transparent so track pseudo works */
+  cursor: pointer;
+  padding: 0;
+  max-width: 100%;
+  min-width: 100%;
+  display: block;
+  margin: 0 auto; /* Center horizontally */
+  margin-top: 6px;
+  margin-bottom: 18px;
+}
+
+/* Webkit track (Chrome, Safari) */
+#speedSlider::-webkit-slider-runnable-track {
+  height: 4px;
+  background: var(--color2);
+  border-radius: 2px;
+}
+
+/* Webkit thumb (the draggable circle) */
+#speedSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  border-radius: 50%;
+  margin-top: -6px; /* Center the thumb on the track */
+}
+
+/* Firefox track */
+#speedSlider::-moz-range-track {
+  height: 4px;
+  background: var(--color2);
+  border-radius: 2px;
+}
+
+/* Firefox thumb */
+#speedSlider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  border-radius: 50%;
+  border: none;
+}
+
+/* Optional: Hide default focus outline */
+#speedSlider:focus {
+  outline: none;
+}
+
+/* Save Button Styles */
+#savePDF {
+  padding: 10px 20px;
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 12px;
+  background: var(--color2);
+  color: var(--text);
+  border: 0 solid;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 1001;
+  transition: background 0.3s, color 0.3s;
+}
+
+#savePDF:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* Switch Container for Toggles */
+.switch {
+  margin-top: 10px;
+  margin-bottom: 7px;
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+/* Slider Style */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color2);
+  transition: 0.4s;
+  border-radius: 50px; /* Rounded corners */
+}
+
+/* Circle inside the slider */
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 5px;
+  bottom: 5px;
+  background-color: var(--accent);
+  transition: 0.4s;
+}
+
+
+/* Thumb color when checkbox is checked */
+input:checked + .slider:before {
+  background-color: var(--color2); /* Blue when on */
+}
+
+/* Background when checkbox is checked */
+input:checked + .slider {
+  background-color: var(--accent);
+}
+
+/* Move the slider circle when checked */
+input:checked + .slider:before {
+  transform: translateX(24px); /* Moves the circle to the right */
+}
+
+/* Hide the checkbox */
+.switch input {
+  display: none;
+}
+
+/* Menu Container Styles */
+#menuContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999; /* Ensure it stays on top */
+  pointer-events: none; /* Let children handle interaction */
+}
