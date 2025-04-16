@@ -14,7 +14,8 @@
   <div id="menuWrapper">
     <div id="menuButton"></div>
     <div id="popup">
-      <button id="savePDF" onclick="exportToPDF()">Save as PDF</button>
+      <button id="save-pdf">Save as PDF</button>
+
 
       <!-- Spawn Speed Slider -->
       <label for="speedSlider" style="font-size: 12px; display: block; margin-top: 15px;">
@@ -29,6 +30,25 @@
         style="width: 95%;"
       />
 
+
+      <!-- Blur Toggle -->
+      <label for="blurToggle" style="font-size: 12px; display: block; margin-top: 15px;">
+        Blur Content
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="blurToggle" checked>
+        <span class="slider"></span>
+      </label>
+
+      <!-- Invert Toggle -->
+      <label for="invertToggle" style="font-size: 12px; display: block; margin-top: 15px;">
+        Random Invert
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="invertToggle">
+        <span class="slider"></span>
+      </label>
+
       <!-- Dark Mode Toggle -->
       <label for="speedSlider" style="font-size: 12px; display: block; margin-top: 15px;">
         Dark Mode
@@ -38,20 +58,33 @@
         <span class="slider"></span>
       </label>
 
-      <!-- Blur Toggle -->
-      <label for="blurToggle" style="font-size: 12px; display: block; margin-top: 15px;">
-        Blur Content
-      </label>
-      <label class="switch">
-        <input type="checkbox" id="blurToggle">
-        <span class="slider"></span>
-      </label>
+      <div style="margin-top: 15px; margin-bottom: 30px">
+        <p style="font-size: 12px; color: white;">Select Streets</p>
+        <div class="checkbox-container">
+          <input type="checkbox" id="streetA" value="a" class="streetCheckbox">
+          <label for="streetA"><span>Street A</span></label>
+        </div>
+
+        <div class="checkbox-container">
+          <input type="checkbox" id="streetB" value="b" class="streetCheckbox">
+          <label for="streetB"><span>Street B</span></label>
+        </div>
+
+        <div class="checkbox-container">
+          <input type="checkbox" id="streetC" value="c" class="streetCheckbox">
+          <label for="streetC"><span>Street C</span></label>
+        </div>
+      </div>
+      
     </div>
   </div>
 
   <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://unpkg.com/html-to-image"></script>
+
+
   <script src="script.js"></script>
 </body>
 </html>

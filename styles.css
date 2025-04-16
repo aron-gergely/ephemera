@@ -8,11 +8,22 @@ body, html {
   background-color: white;
 }
 
+/*
+.hide-for-export {
+  display: none !important;
+}
+*/
+
 :root {
   --color1: black;
   --color2: white;
   --accent: magenta;
   --text: var(--color1);
+}
+
+.pause-animations * {
+  animation: none !important;
+  transition: none !important;
 }
 
 /* Container for Images */
@@ -183,7 +194,7 @@ body.dark-mode #popup {
 }
 
 /* Save Button Styles */
-#savePDF {
+#save-pdf {
   padding: 10px 20px;
   width: 100%;
   margin-bottom: 10px;
@@ -197,7 +208,7 @@ body.dark-mode #popup {
   transition: background 0.3s, color 0.3s;
 }
 
-#savePDF:hover {
+#save-pdf:hover {
   background: var(--accent);
   color: white;
 }
@@ -267,3 +278,65 @@ input:checked + .slider:before {
   z-index: 9999; /* Ensure it stays on top */
   pointer-events: none; /* Let children handle interaction */
 }
+
+
+
+/* Style the container of the checkbox */
+.checkbox-container {
+  display: flex;
+  align-items: center; /* Vertically align the checkbox and text */
+  gap: 8px; /* Space between checkbox and label */
+  margin-top: 10px;
+  font-size: 12px; /* Make the text 12px */
+}
+
+/* Hide the default checkbox */
+.checkbox-container input[type="checkbox"] {
+  display: none;
+}
+
+/* Style the label to hold the circle and text */
+.checkbox-container label {
+  display: flex;
+  align-items: center; /* Vertically align the circle and text */
+  gap: 8px; /* Space between the circle and the text */
+  cursor: pointer;
+  position: relative; /* To position the dot */
+}
+
+/* Create the custom circle for the checkbox */
+.checkbox-container label::before {
+  content: '';
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: white; /* Default background color of the circle */
+  position: relative;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  z-index: 1; /* Ensure the circle stays below the dot */
+}
+
+/* Change background color to red when checked */
+.checkbox-container input[type="checkbox"]:checked + label::before {
+  background-color: var(--accent); /* Background color of circle when checked */
+}
+
+/* Add a small blue dot in the center when checked */
+.checkbox-container input[type="checkbox"]:checked + label::after {
+  content: '';
+  position: absolute;
+  top: 5px; /* Centered vertically in the circle */
+  left: 5px; /* Centered horizontally in the circle */
+  width: 16px; /* Smaller dot size */
+  height: 16px; /* Smaller dot size */
+  background-color: white; /* Dot color */
+  border-radius: 50%;
+  z-index: 2; /* Ensure the dot appears on top of the circle */
+}
+
+/* Ensure the text inside the label is aligned properly */
+.checkbox-container label span {
+  font-size: 12px;
+  vertical-align: middle; /* Align text vertically */
+}
+
