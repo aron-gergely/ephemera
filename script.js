@@ -38,7 +38,7 @@ function getRandomImagePath() {
     if (maxImages === 0) continue;
 
     const imgIndex = String(Math.floor(Math.random() * maxImages) + 1).padStart(2, '0');
-    newPath = `images/${street}/${imgIndex}.svg`;
+    newPath = `/images/${street}/${imgIndex}.svg`;
 
     attempt++;
     if (attempt >= maxAttempts) break;
@@ -128,10 +128,11 @@ function createImage() {
   });
 }
 
+
 // === DYNAMIC PAGE HEIGHT ADJUSTMENT ===
 
 function updatePageHeight(topInVh) {
-  const maxHeightVh = 2000;
+  const maxHeightVh = 1000;
   const currentHeightVh = parseFloat(document.documentElement.style.getPropertyValue('--page-height') || 100);
   const targetHeight = Math.min(Math.max(currentHeightVh, topInVh), maxHeightVh);
 
@@ -141,8 +142,8 @@ function updatePageHeight(topInVh) {
 
 function moveImageDown(img) {
   let topPosition = parseFloat(img.style.top);
-  const fadeStartVh = 1850;
-  const fadeEndVh = 1900;
+  const fadeStartVh = 850;
+  const fadeEndVh = 900;
 
   function animate() {
     topPosition += 0.1;
@@ -334,6 +335,8 @@ darkModeToggle.addEventListener("click", () => {
 // === BLUR TOGGLE ===
 
 blurToggle.addEventListener("change", () => {
+  document.body.classList.toggle("blur-on", blurToggle.checked);
+
   if (blurToggle.checked) {
     imagesInView.forEach((img) => {
       if (!activeBlurIntervals.has(img) && !blurredImages.has(img)) {
@@ -351,6 +354,7 @@ blurToggle.addEventListener("change", () => {
     blurredImages.forEach((img) => graduallyUnblur(img));
   }
 });
+
 
 // === BLUR ANIMATION ===
 
