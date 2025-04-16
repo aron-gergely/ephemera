@@ -38,7 +38,7 @@ function getRandomImagePath() {
     if (maxImages === 0) continue;
 
     const imgIndex = String(Math.floor(Math.random() * maxImages) + 1).padStart(2, '0');
-    newPath = `/images/${street}/${imgIndex}.svg`;
+    newPath = `images/${street}/${imgIndex}.svg`;
 
     attempt++;
     if (attempt >= maxAttempts) break;
