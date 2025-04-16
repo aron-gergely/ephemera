@@ -39,6 +39,12 @@ img {
   transition: transform 0.1s ease-in-out;
 }
 
+body.blur-on img,
+body.blur-on .spawned-image {
+  cursor: pointer !important;
+}
+
+
 /* Popup Styles */
 #popup {
   position: fixed;
