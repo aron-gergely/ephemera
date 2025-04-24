@@ -361,7 +361,7 @@ blurToggle.addEventListener("change", () => {
 function graduallyBlur(img) {
   let blur = 0;
   const maxBlur = Math.random() * 10 + 10;
-  const step = 0.05;
+  const step = 0.02;
 
   function animate() {
     if (!blurToggle.checked) {
@@ -390,7 +390,7 @@ function graduallyBlur(img) {
   }
 
   // Delay start of animation by 0.5 seconds
-  const delay = 1000;
+  const delay = 1500;
   const delayTimeout = setTimeout(() => {
     const frame = requestAnimationFrame(animate);
     activeBlurIntervals.set(img, frame);
