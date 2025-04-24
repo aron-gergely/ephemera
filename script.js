@@ -38,7 +38,7 @@ function getRandomImagePath() {
     if (maxImages === 0) continue;
 
     const imgIndex = String(Math.floor(Math.random() * maxImages) + 1).padStart(2, '0');
-    newPath = `images/${street}/${imgIndex}.svg`;
+    newPath = `/images/${street}/${imgIndex}.svg`;
 
     attempt++;
     if (attempt >= maxAttempts) break;
@@ -132,7 +132,7 @@ function createImage() {
 // === DYNAMIC PAGE HEIGHT ADJUSTMENT ===
 
 function updatePageHeight(topInVh) {
-  const maxHeightVh = 1000;
+  const maxHeightVh = 2000;
   const currentHeightVh = parseFloat(document.documentElement.style.getPropertyValue('--page-height') || 100);
   const targetHeight = Math.min(Math.max(currentHeightVh, topInVh), maxHeightVh);
 
@@ -142,8 +142,8 @@ function updatePageHeight(topInVh) {
 
 function moveImageDown(img) {
   let topPosition = parseFloat(img.style.top);
-  const fadeStartVh = 850;
-  const fadeEndVh = 900;
+  const fadeStartVh = 1850;
+  const fadeEndVh = 1900;
 
   function animate() {
     topPosition += 0.1;
@@ -398,6 +398,7 @@ function graduallyBlur(img) {
 
   // Optional: store timeout ID if you might want to cancel it later
 }
+
 
 function graduallyUnblur(img) {
   let blur = parseFloat(img.dataset.blur?.replace("px", "") || 20);
