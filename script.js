@@ -389,7 +389,14 @@ function graduallyBlur(img) {
     cancelAnimationFrame(activeBlurIntervals.get(img));
   }
 
-  animate();
+  // Delay start of animation by 0.5 seconds
+  const delay = 1000;
+  const delayTimeout = setTimeout(() => {
+    const frame = requestAnimationFrame(animate);
+    activeBlurIntervals.set(img, frame);
+  }, delay);
+
+  // Optional: store timeout ID if you might want to cancel it later
 }
 
 function graduallyUnblur(img) {
