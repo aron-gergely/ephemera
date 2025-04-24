@@ -361,7 +361,7 @@ blurToggle.addEventListener("change", () => {
 function graduallyBlur(img) {
   let blur = 0;
   const maxBlur = Math.random() * 10 + 10;
-  const step = 0.1;
+  const step = 0.05;
 
   function animate() {
     if (!blurToggle.checked) {
