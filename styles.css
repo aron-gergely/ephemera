@@ -3,9 +3,34 @@ body, html {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow-x: hidden; /* Disable horizontal scrolling */
-  overflow-y: auto;   /* Allow vertical scrolling */
+  overflow: hidden;
   background-color: white;
+}
+
+/*
+html, body, #contentLayer, #container {
+  outline: 10px solid red;
+}
+*/
+
+/* Hide scrollbar for all browsers but keep scrolling */
+#contentLayer {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+#contentLayer::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+
+body.dark-mode {
+  background-color: #000000; /* Dark background for scrolling area */
+}
+
+body.cursor-enabled img,
+body.cursor-enabled .spawned-image {
+  cursor: pointer !important;
 }
 
 /*
@@ -28,15 +53,15 @@ body, html {
 
 /* Container for Images */
 #container {
-  position: absolute;
+  position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
+  overflow: visible;
 }
 
 img {
   position: absolute;
-  will-change: transform, top;
-  transition: transform 0.1s ease-in-out;
+  will-change: transform;
 }
 
 body.blur-on img,
@@ -52,17 +77,42 @@ body.blur-on .spawned-image {
   left: 30px;
   width: 120px;
   border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   background-color: var(--color1);
-  padding: 15px;
+  padding: 20px;
   padding-top: 50px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); */
   opacity: 1;
-  z-index: 1;
+  z-index: 3;
   pointer-events: auto;
   transform-origin: top left;
 }
 
 #popup.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#popup2 {
+  position: fixed;
+  top: 30px;
+  left: 210px; /* popup + egy kis távolság */
+  width: 260px;
+  border-radius: 15px;
+  border: 1px solid rgba(0,0,0, 0.2);
+  background-color: var(--color2);
+  color: var(--color1);
+  padding: 20px;
+  padding-top: 10px;
+  /* box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); */
+  opacity: 1;
+  z-index: 1;
+  pointer-events: auto;
+  transform-origin: top left;
+  line-height: 1.3rem;
+}
+
+#popup2.hidden {
   opacity: 0;
   pointer-events: none;
 }
@@ -73,28 +123,42 @@ body.blur-on .spawned-image {
 }
 
 /* Dark Mode */
-.dark-mode {
+.dark-mode #contentLayer {
   filter: invert(1);
-  background-color: white; /* Optional: You can still set a dark background */
+  background-color: #ffffff; /* Optional: Set background for dark mode */
 }
 
-#contentWrapper.dark-inverted {
-  filter: invert(1);
-}
-
-.dark-mode #menuContainer {
-  filter: none !important; /* Keep menu un-inverted */
-}
-
-body.dark-mode #popup {
+/* Keep popups and menus in normal color space */
+#uiLayer {
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  pointer-events: none; /* Let children handle events if needed */
 }
+
+#contentLayer {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: transparent;
+  z-index: 0;
+}
+
+
+
+
 
 /* Menu Styles */
 #menuWrapper {
   position: fixed;
-  top: 30px;
-  left: 30px;
+  top: 35px;
+  left: 35px;
   pointer-events: auto;
   z-index: 1000;
   filter: none !important; /* Prevent invert from applying to it */
@@ -102,7 +166,7 @@ body.dark-mode #popup {
 
 #menuWrapper label,
 #menuWrapper input[type="range"] {
-  font-family: sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   color: var(--color2);
 }
 
@@ -111,8 +175,8 @@ body.dark-mode #popup {
 }
 
 #menuWrapper div {
-  font-family: sans-serif;
-  font-size: 10px; /* Adjust size if needed */
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13px; /* Adjust size if needed */
 }
 
 /* Menu Button Styles */
@@ -120,23 +184,50 @@ body.dark-mode #popup {
   width: 25px;
   height: 25px;
   background-color: transparent;
-  border: 2px solid var(--accent);
+  border: 1.5px solid rgba(0,0,0, 0.0);
   border-radius: 50%;
   cursor: pointer;
-  transition: background 0.3s, color 0.3s;
+  transition: background 0.3s, color 0.3s, opacity 0.3s;
   z-index: 1001;
   position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
 }
 
 #menuButton:hover {
-  background-color: var(--accent);
-  border: 2px solid var(--accent);
+  background-color: transparent;
+  border: 1.5px solid rgba(0,0,0, 0.0);
 }
 
 #menuButton.active {
-  background-color: var(--accent);
-  border: 2px solid var(--accent);
+  background-color: transparent;
+  border: 1.5px solid rgba(0,0,0, 0.0);
 }
+
+#menuButton.active:hover {
+  background-color: transparent;
+  border: 1.5px solid rgba(0,0,0, 0.0);
+}
+
+#menuButton .line {
+  display: block;
+  width: 14px;
+  height: 2px;
+  background-color: var(--accent);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#menuButton.active .top {
+  transform: rotate(45deg) translate(2px, 2px);
+}
+#menuButton.active .bottom {
+  transform: rotate(-45deg) translate(2px, -2px);
+}
+
 
 .dark-mode #menuButton,
 .dark-mode #menuButton:hover,
@@ -145,8 +236,74 @@ body.dark-mode #popup {
 }
 
 
-/* Speed Slider Styles */
-#speedSlider {
+/* POPUP2 BUTTON*/
+#popup2-close-button {
+  width: 25px;
+  height: 25px;
+  background-color: rgba(0,0,0, 0.0);
+  border: 1.5px solid rgba(0,0,0, 0.0);
+  border-radius: 50%;
+  cursor: pointer;
+  position: fixed;
+  top: 35px;
+  left: 215px;
+  z-index: 2;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+
+  transition: background-color 0.3s;
+}
+
+#popup2-close-button.show {
+  display: flex;
+}
+
+#popup2-close-button:hover {
+  background-color: transparent;
+}
+
+#popup2-close-button:not(.active) {
+  border: 1.5px solid rgba(0,0,0, 0.0);
+  background-color: transparent;
+}
+
+#popup2-close-button:not(.active):hover {
+  background-color: transparent;
+}
+
+#popup2-close-button .line {
+  display: block;
+  width: 14px;
+  height: 2px;
+  background-color: var(--accent);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#popup2-close-button .top {
+  transform: rotate(45deg) translate(2px, 2px);
+}
+
+#popup2-close-button .bottom {
+  transform: rotate(-45deg) translate(2px, -2px);
+}
+
+#popup2-close-button.active .top {
+  transform: rotate(45deg) translate(2px, 2px);
+}
+
+#popup2-close-button.active .bottom {
+  transform: rotate(-45deg) translate(2px, -2px);
+}
+
+
+
+
+/* Spawn Slider Styles */
+#spawnSpeedSlider {
   -webkit-appearance: none;
   appearance: none;
   background: transparent; /* Make base background transparent so track pseudo works */
@@ -161,14 +318,14 @@ body.dark-mode #popup {
 }
 
 /* Webkit track (Chrome, Safari) */
-#speedSlider::-webkit-slider-runnable-track {
+#spawnSpeedSlider::-webkit-slider-runnable-track {
   height: 4px;
   background: var(--color2);
   border-radius: 2px;
 }
 
 /* Webkit thumb (the draggable circle) */
-#speedSlider::-webkit-slider-thumb {
+#spawnSpeedSlider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 16px;
@@ -179,14 +336,14 @@ body.dark-mode #popup {
 }
 
 /* Firefox track */
-#speedSlider::-moz-range-track {
+#spawnSpeedSlider::-moz-range-track {
   height: 4px;
   background: var(--color2);
   border-radius: 2px;
 }
 
 /* Firefox thumb */
-#speedSlider::-moz-range-thumb {
+#spawnSpeedSlider::-moz-range-thumb {
   width: 16px;
   height: 16px;
   background: var(--accent);
@@ -195,16 +352,75 @@ body.dark-mode #popup {
 }
 
 /* Optional: Hide default focus outline */
-#speedSlider:focus {
+#spawnSpeedSlider:focus {
   outline: none;
 }
+
+
+
+/* Scroll Slider Styles */
+#scrollSpeedSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent; /* Make base background transparent so track pseudo works */
+  cursor: pointer;
+  padding: 0;
+  max-width: 100%;
+  min-width: 100%;
+  display: block;
+  margin: 0 auto; /* Center horizontally */
+  margin-top: 6px;
+  margin-bottom: 18px;
+}
+
+/* Webkit track (Chrome, Safari) */
+#scrollSpeedSlider::-webkit-slider-runnable-track {
+  height: 4px;
+  background: var(--color2);
+  border-radius: 2px;
+}
+
+/* Webkit thumb (the draggable circle) */
+#scrollSpeedSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  border-radius: 50%;
+  margin-top: -6px; /* Center the thumb on the track */
+}
+
+/* Firefox track */
+#scrollSpeedSlider::-moz-range-track {
+  height: 4px;
+  background: var(--color2);
+  border-radius: 2px;
+}
+
+/* Firefox thumb */
+#scrollSpeedSlider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  border-radius: 50%;
+  border: none;
+}
+
+/* Optional: Hide default focus outline */
+#scrollSpeedSlider:focus {
+  outline: none;
+}
+
+
 
 /* Save Button Styles */
 #save-pdf {
   padding: 10px 20px;
   width: 100%;
   margin-bottom: 10px;
-  font-size: 12px;
+  font-size: 13px;
+  font-family: Helvetica, Arial, sans-serif;
   background: var(--color2);
   color: var(--text);
   border: 0 solid;
@@ -346,3 +562,7 @@ input:checked + .slider:before {
   vertical-align: middle; /* Align text vertically */
 }
 
+body:not(.cursor-enabled) img,
+body:not(.cursor-enabled) .spawned-image {
+  cursor: default !important;
+}

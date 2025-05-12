@@ -1,90 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project BLACK</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ephemera</title>
+  <link rel="stylesheet" href="styles.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.1/gsap.min.js"></script>
 </head>
-<body class="blur-on">
-  <div id="container"></div>
-  <div id="customCursor"></div>
+  <body>
+  <!-- UI Layer (Menu, Popups) -->
+  <div id="uiLayer">
+    <div id="menuWrapper">
+      <div id="menuButton">
+        <span class="line top"></span>
+        <span class="line bottom"></span>
+      </div>
+      <div id="popup">
+        <button id="save-pdf">Save as PDF</button>
 
-  <div id="menuWrapper">
-    <div id="menuButton"></div>
-    <div id="popup">
-      <button id="save-pdf">Save as PDF</button>
+        <!-- Spawn Speed Slider -->
+        <label for="spawnSpeedSlider" style="font-size: 13px; display: block; margin-top: 15px;">Spawn Rate</label>
+        <input type="range" id="spawnSpeedSlider" min="0" max="100" value="50" style="width: 95%;" />
 
+        <!-- Scroll Speed Slider -->
+        <label for="scrollSpeedSlider" style="font-size: 13px; display: block; margin-top: 15px;">Fall Speed</label>
+        <input type="range" id="scrollSpeedSlider" min="0" max="100" value="50" style="width: 95%;" />
 
-      <!-- Spawn Speed Slider -->
-      <label for="speedSlider" style="font-size: 12px; display: block; margin-top: 15px;">
-        Spawn Speed
-      </label>
-      <input
-        type="range"
-        id="speedSlider"
-        min="0"
-        max="100"
-        value="50"
-        style="width: 95%;"
-      />
+        <!-- Blur Toggle -->
+        <label for="blurToggle" style="font-size: 13px; display: block; margin-top: 15px;">Blur (Interactive)</label>
+        <label class="switch">
+          <input type="checkbox" id="blurToggle" checked />
+          <span class="slider"></span>
+        </label>
 
+        <!-- Freeze Toggle -->
+        <label for="freezeToggle" style="font-size: 13px; display: block; margin-top: 15px;">Freeze (Interactive)</label>
+        <label class="switch">
+          <input type="checkbox" id="freezeToggle" />
+          <span class="slider"></span>
+        </label>
 
-      <!-- Blur Toggle -->
-      <label for="blurToggle" style="font-size: 12px; display: block; margin-top: 15px;">
-        Blur Content
-      </label>
-      <label class="switch">
-        <input type="checkbox" id="blurToggle" checked>
-        <span class="slider"></span>
-      </label>
+        <!-- Random Rotation Toggle -->
+        <label for="rotationToggle" style="font-size: 13px; display: block; margin-top: 15px;">Random Rotation</label>
+        <label class="switch">
+          <input type="checkbox" id="rotationToggle" />
+          <span class="slider"></span>
+        </label>
 
-      <!-- Invert Toggle -->
-      <label for="invertToggle" style="font-size: 12px; display: block; margin-top: 15px;">
-        Random Invert
-      </label>
-      <label class="switch">
-        <input type="checkbox" id="invertToggle">
-        <span class="slider"></span>
-      </label>
+        <!-- Invert Toggle -->
+        <label for="invertToggle" style="font-size: 13px; display: block; margin-top: 15px;">Random Invert</label>
+        <label class="switch">
+          <input type="checkbox" id="invertToggle" />
+          <span class="slider"></span>
+        </label>
 
-      <!-- Dark Mode Toggle -->
-      <label for="speedSlider" style="font-size: 12px; display: block; margin-top: 15px;">
-        Dark Mode
-      </label>
-      <label class="switch">
-        <input type="checkbox" id="darkModeToggle">
-        <span class="slider"></span>
-      </label>
+        <!-- Dark Mode Toggle -->
+        <label for="darkModeToggle" style="font-size: 13px; display: block; margin-top: 15px;">Dark Mode</label>
+        <label class="switch">
+          <input type="checkbox" id="darkModeToggle" />
+          <span class="slider"></span>
+        </label>
 
-      <div style="margin-top: 15px; margin-bottom: 30px">
-        <p style="font-size: 12px; color: white;">Select Streets</p>
-        <div class="checkbox-container">
-          <input type="checkbox" id="streetA" value="a" class="streetCheckbox">
-          <label for="streetA"><span>Street A</span></label>
-        </div>
-
-        <div class="checkbox-container">
-          <input type="checkbox" id="streetB" value="b" class="streetCheckbox">
-          <label for="streetB"><span>Street B</span></label>
-        </div>
-
-        <div class="checkbox-container">
-          <input type="checkbox" id="streetC" value="c" class="streetCheckbox">
-          <label for="streetC"><span>Street C</span></label>
+        <div style="margin-top: 15px; margin-bottom: 30px;">
+          <p style="font-size: 13px; color: white;">Image Categories</p>
+          <div class="checkbox-container">
+            <input type="checkbox" id="folderA" value="a" class="streetCheckbox" />
+            <label for="folderA"><span style="font-size: 13px; color: white;">Category 01</span></label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="folderB" value="b" class="streetCheckbox" />
+            <label for="folderB"><span style="font-size: 13px; color: white;">Category 02</span></label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="folderC" value="c" class="streetCheckbox" />
+            <label for="folderC"><span style="font-size: 13px; color: white;">Category 03</span></label>
+          </div>
         </div>
       </div>
-      
+
+      <div id="popup2">
+        <p style="font-size: 48px; letter-spacing: -2px; margin-bottom: 2rem;">EPHEMERA</p>
+        <p style="font-size: 14px; margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(0,0,0, 0.2);">
+          The term <i>ephemera</i> (noun) refers to items of short-lived usefulness, not intended to be retained or preserved.
+        </p>
+        <p style="font-size: 14px; margin-bottom: 1rem;">
+          This interactive project invites viewers to explore the world of urban visual culture, drawing attention to the everyday signs, writings, and symbols that fill our streets but often go unnoticed.
+        </p>
+        <p style="font-size: 14px; margin-bottom: 2rem;">
+          By documenting these marks, the project creates an archive of public textual and visual messages that were destined to be&nbsp;forgotten almost as quickly as noticed. It&nbsp;encourages us to reconsider how we perceive the city, where we allocate our attention, and how we relate to its layers of expression. In doing so, the project takes the form of a quiet, improvised visual collage that reflects the unspoken language of the city.
+        </p>
+        <p style="font-size: 14px; margin-bottom: 1.5rem;">
+          Design: Áron Gergely<br>Tutors: Béla Hegyi, István Nagy<br>MOME Budapest, 2025
+        </p>
+      </div>
+
+      <div id="popup2-close-button" class="active">
+        <span class="line top"></span>
+        <span class="line bottom"></span>
+      </div>
     </div>
+  </div>
+
+  <!-- Content Layer (Images) -->
+  <div id="contentLayer">
+    <div id="container"></div>
+    <div id="customCursor"></div>
   </div>
 
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://unpkg.com/html-to-image"></script>
-
-
   <script src="script.js"></script>
 </body>
 </html>
