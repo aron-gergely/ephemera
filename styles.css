@@ -7,6 +7,28 @@ body, html {
   background-color: white;
 }
 
+#loader, #loader * {
+  user-select: none;        
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  cursor: default;          
+}
+
+p, h1, h2, h3, h4, h5, h6, blockquote, li, a, strong, em {
+  user-select: none;
+  cursor: default;
+}
+
+button, 
+#menuButton, 
+#popup2-close-button, 
+#menuButton *, 
+#popup2-close-button * {
+  user-select: auto;
+  cursor: pointer;
+}
+
+
 /*
 html, body, #contentLayer, #container {
   outline: 10px solid red;
@@ -21,11 +43,6 @@ html, body, #contentLayer, #container {
 
 #contentLayer::-webkit-scrollbar {
   display: none; /* Chrome, Safari, and Opera */
-}
-
-
-body.dark-mode {
-  background-color: #000000; /* Dark background for scrolling area */
 }
 
 body.cursor-enabled img,
@@ -70,6 +87,38 @@ body.blur-on .spawned-image {
 }
 
 
+
+/* Loader Styles */
+#loader {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 1s ease;
+}
+
+.loader-text {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 104px;
+  color: var(--text);
+  letter-spacing: -0.35rem;
+  text-transform: uppercase;
+  padding-bottom: 10vh;
+}
+
+.loader-text span {
+  opacity: 0;
+  filter: blur(10px);
+  display: inline-block;
+  transition: opacity 0.8s ease, filter 0.8s ease;
+}
+
+
+
 /* Popup Styles */
 #popup {
   position: fixed;
@@ -97,7 +146,7 @@ body.blur-on .spawned-image {
   position: fixed;
   top: 30px;
   left: 210px; /* popup + egy kis távolság */
-  width: 260px;
+  width: 262px;
   border-radius: 15px;
   border: 1px solid rgba(0,0,0, 0.2);
   background-color: var(--color2);
@@ -125,7 +174,7 @@ body.blur-on .spawned-image {
 /* Dark Mode */
 .dark-mode #contentLayer {
   filter: invert(1);
-  background-color: #ffffff; /* Optional: Set background for dark mode */
+  background-color: white; /* Optional: Set background for dark mode */
 }
 
 /* Keep popups and menus in normal color space */
@@ -135,7 +184,7 @@ body.blur-on .spawned-image {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 9999;
+  z-index: 9998;
   pointer-events: none; /* Let children handle events if needed */
 }
 
@@ -166,7 +215,7 @@ body.blur-on .spawned-image {
 
 #menuWrapper label,
 #menuWrapper input[type="range"] {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   color: var(--color2);
 }
 
@@ -175,7 +224,7 @@ body.blur-on .spawned-image {
 }
 
 #menuWrapper div {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 13px; /* Adjust size if needed */
 }
 
@@ -420,7 +469,7 @@ body.blur-on .spawned-image {
   width: 100%;
   margin-bottom: 10px;
   font-size: 13px;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   background: var(--color2);
   color: var(--text);
   border: 0 solid;
@@ -432,7 +481,7 @@ body.blur-on .spawned-image {
 
 #save-pdf:hover {
   background: var(--accent);
-  color: white;
+  color: var(--color2);;
 }
 
 /* Switch Container for Toggles */
@@ -497,7 +546,7 @@ input:checked + .slider:before {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9999; /* Ensure it stays on top */
+  z-index: 9998; /* Ensure it stays on top */
   pointer-events: none; /* Let children handle interaction */
 }
 

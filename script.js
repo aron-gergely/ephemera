@@ -1,4 +1,41 @@
+// === LOADER ANIM ===
+const letters = Array.from(document.querySelectorAll('.loader-text span'));
+
+// Shuffle the letters array for random order
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+shuffle(letters).forEach((letter, index) => {
+  setTimeout(() => {
+    letter.style.opacity = '1';
+    letter.style.filter = 'blur(0px)';
+  }, index * 150); // Staggered appearance
+});
+
+// Fade out the loader after all letters are visible
+setTimeout(() => {
+  const loader = document.getElementById('loader');
+  loader.style.opacity = '0';
+  setTimeout(() => {
+    loader.remove();
+    setTimeout(startImageSpawning, 1000); // After loading is done, adds extra delay before spawning
+  }, 1000); // Matches the CSS transition duration
+}, letters.length * 150 + 1000);
+
+
+
+
 // === IMAGE SPAWNING SETUP WITH FOLDER SELECTION ===
+
+function startImageSpawning() {
+  spawnImages();
+}
+
 
 const imageCounts = {
   a: 10,
@@ -42,7 +79,7 @@ function getRandomImagePath() {
     if (maxImages === 0) continue;
 
     const imgIndex = String(Math.floor(Math.random() * maxImages) + 1).padStart(2, '0');
-    newPath = `images/${street}/${imgIndex}.svg`;
+    newPath = `/images/${street}/${imgIndex}.svg`;
 
     attempt++;
     if (attempt >= maxAttempts) break;
@@ -55,7 +92,9 @@ function getRandomImagePath() {
 // === IMAGE LOGIC ===
 
 const blurToggle = document.getElementById("blurToggle");
-blurToggle.checked = false;
+blurToggle.checked = true;
+handleCursorState(); // Force the correct cursor state immediately
+
 
 const activeBlurIntervals = new Map();
 const blurredImages = new Set();
@@ -239,7 +278,6 @@ function spawnImages() {
   setTimeout(spawnImages, getRandomSpawnTime());
 }
 
-spawnImages();
 
 
 // === POPUP TOGGLE ===
@@ -406,7 +444,7 @@ const makeLine = (text, position) => {
     background: "black",
     color: "white",
     padding: "4px 8px",
-    fontFamily: "Helvetica, Arial, sans-serif",
+    fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
     fontSize: "14px",
     zIndex: "99999",
     opacity: "0",
@@ -500,6 +538,7 @@ function exportCanvas(callback) {
           // Restore original state
           contentLayer.style.height = originalHeight;
           elementsToHide.forEach(el => el.classList.remove("hide-for-export"));
+          menuButton.style.opacity = "1"; // Restore visibility
           animationsPaused = false;
           if (callback) callback();
         };
@@ -509,6 +548,7 @@ function exportCanvas(callback) {
         console.error("Error generating PDF:", err);
         contentLayer.style.height = originalHeight;
         elementsToHide.forEach(el => el.classList.remove("hide-for-export"));
+        menuButton.style.opacity = "1"; // Restore visibility even on error
         animationsPaused = false;
         if (callback) callback();
       });
@@ -576,9 +616,10 @@ img.addEventListener("click", (e) => {
   if (freezeToggle.checked) {
     // Freeze duplication logic
     const rect = img.getBoundingClientRect();
-    const parent = document.getElementById("container");
-    const left = rect.left + window.scrollX;
-    const top = rect.top + window.scrollY;
+    const containerRect = document.getElementById("container").getBoundingClientRect();
+
+    const left = rect.left - containerRect.left;
+    const top = rect.top - containerRect.top;
 
     const totalSpawns = Math.floor(Math.random() * (100 - 10) + 10); // Between 10 and 100 spawns
     let count = 0;
