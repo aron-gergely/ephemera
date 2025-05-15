@@ -38,10 +38,10 @@ function startImageSpawning() {
 
 
 const imageCounts = {
-  a: 29,
-  b: 16,
-  c: 31,
-  d: 24,
+  a: 44,
+  b: 41,
+  c: 49,
+  d: 34,
 };
 
 const selectedStreets = new Set(["a", "b", "c", "d"]);
@@ -80,7 +80,7 @@ function getRandomImagePath() {
     if (maxImages === 0) continue;
 
     const imgIndex = String(Math.floor(Math.random() * maxImages) + 1).padStart(2, '0');
-    newPath = `images/${street}/${imgIndex}.svg`;
+    newPath = `/images/${street}/${imgIndex}.svg`;
 
     attempt++;
     if (attempt >= maxAttempts) break;
