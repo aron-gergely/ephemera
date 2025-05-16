@@ -53,6 +53,11 @@ const generatedPDFNames = new Map();
 
 window.addEventListener('DOMContentLoaded', () => {
   const rotationToggle = document.getElementById("rotationToggle");
+  const blurToggle = document.getElementById("blurToggle");
+
+  // Blur off by default
+  blurToggle.checked = false;
+  handleCursorState();
 
   document.querySelectorAll('.streetCheckbox').forEach(checkbox => {
     checkbox.checked = true;
@@ -91,11 +96,6 @@ function getRandomImagePath() {
 }
 
 // === IMAGE LOGIC ===
-
-const blurToggle = document.getElementById("blurToggle");
-blurToggle.checked = true;
-handleCursorState(); // Force the correct cursor state immediately
-
 
 const activeBlurIntervals = new Map();
 const blurredImages = new Set();
