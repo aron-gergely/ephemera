@@ -85,7 +85,7 @@ function getRandomImagePath() {
     if (maxImages === 0) continue;
 
     const imgIndex = String(Math.floor(Math.random() * maxImages) + 1).padStart(2, '0');
-    newPath = `images/${street}/${imgIndex}.svg`;
+    newPath = `/images/${street}/${imgIndex}.svg`;
 
     attempt++;
     if (attempt >= maxAttempts) break;
@@ -128,7 +128,7 @@ function getRandomRotation() {
 
 function getRandomInvert() {
   const invertToggle = document.getElementById("invertToggle");
-  return invertToggle && invertToggle.checked && Math.random() < 0.2 ? "invert(1)" : "none";
+  return invertToggle && invertToggle.checked && Math.random() < 0.3 ? "invert(1)" : "none";
 }
 
 function applyFilters(img) {
@@ -192,6 +192,8 @@ img.addEventListener("click", (e) => {
 }
 
 
+// === SCROLL SPEED SLIDER ===
+
 const scrollSpeedSlider = document.getElementById("scrollSpeedSlider");
 let scrollSpeedMultiplier = 1; // Default speed
 
@@ -199,6 +201,29 @@ scrollSpeedSlider.addEventListener("input", () => {
   // Map slider value (0–100) to 0.5–2
   scrollSpeedMultiplier = Math.map(scrollSpeedSlider.value, 0, 100, 0.5, 2);
 });
+
+
+// === SIZE SLIDER ===
+const sizeSlider = document.getElementById("sizeSlider");
+let sizeMultiplier = 1; // Default size multiplier
+
+sizeSlider.addEventListener("input", () => {
+  sizeMultiplier = Math.map(sizeSlider.value, 0, 100, 0.5, 2);
+});
+
+// Override getRandomSize to use dynamic multiplier
+function getRandomSize() {
+  const baseMin = 50;
+  const baseMax = 750;
+  const minSize = baseMin * sizeMultiplier;
+  const maxSize = baseMax * sizeMultiplier;
+  const randomSize = Math.random() * (maxSize - minSize) + minSize;
+
+  return {
+    width: `${randomSize}px`,
+    height: "auto"
+  };
+}
 
 
 // === DYNAMIC PAGE HEIGHT ADJUSTMENT ===
