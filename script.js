@@ -38,10 +38,10 @@ function startImageSpawning() {
 
 
 const imageCounts = {
-  a: 44,
-  b: 41,
-  c: 49,
-  d: 34,
+  a: 45,
+  b: 45,
+  c: 50,
+  d: 48,
 };
 
 const selectedStreets = new Set(["a", "b", "c", "d"]);
