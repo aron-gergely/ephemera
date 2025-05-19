@@ -30,6 +30,13 @@ setTimeout(() => {
 
 
 
+
+let idleTimer = null;
+let autoGlitchTimer = null;
+const idleThreshold = 15000; // 15 seconds in milliseconds
+
+
+
 // === IMAGE SPAWNING SETUP WITH FOLDER SELECTION ===
 
 function startImageSpawning() {
@@ -70,6 +77,34 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+
+// Shuffle the letters array for random order
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  shuffle(letters).forEach((letter, index) => {
+    setTimeout(() => {
+      letter.style.opacity = '1';
+      letter.style.filter = 'blur(0px)';
+    }, index * 150);
+  });
+
+  // Fade out the loader after all letters are visible
+  setTimeout(() => {
+    const loader = document.getElementById('loader');
+    loader.style.opacity = '0';
+    setTimeout(() => {
+      loader.remove();
+      setTimeout(startImageSpawning, 1000);
+    }, 1000);
+  }, letters.length * 150 + 1000);
+
 
 function getRandomImagePath() {
   const streets = Array.from(selectedStreets);
@@ -828,3 +863,53 @@ function handleBlurToggle() {
   }
 }
 
+
+
+// === IDLE DETECTION & AUTO GLITCH ===
+function resetIdleTimer() {
+  clearTimeout(idleTimer);
+  stopAutoGlitch();
+
+  idleTimer = setTimeout(() => {
+    if (freezeToggle.checked) {
+      startAutoGlitch();
+    }
+  }, idleThreshold);
+}
+
+function stopAutoGlitch() {
+  clearTimeout(autoGlitchTimer);
+}
+
+function startAutoGlitch() {
+  function glitchAction() {
+    const images = Array.from(imagesInView).filter(isInViewport);
+    if (!images.length) return;
+
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+    if (randomImage) randomImage.click();
+
+    const nextDelay = Math.random() * 5000 + 10000; // 10–15 seconds
+    autoGlitchTimer = setTimeout(glitchAction, nextDelay);
+  }
+
+  glitchAction();
+}
+
+function isInViewport(element) {
+  const rect = element.getBoundingClientRect();
+  return (
+    rect.top < window.innerHeight &&
+    rect.bottom > 0 &&
+    rect.left < window.innerWidth &&
+    rect.right > 0
+  );
+}
+
+// Monitor user interactions
+["mousemove", "mousedown", "touchstart", "keydown"].forEach(event => {
+  document.addEventListener(event, resetIdleTimer, false);
+});
+
+// Start initial idle timer
+resetIdleTimer();
